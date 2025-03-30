@@ -3,17 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Raven Neo - Phase 6</title>
+  <title>Raven Neo - ScriptPad</title>
   <link rel="manifest" href="manifest.json">
   <script src="main.js" defer></script>
   <script src="volumes.js" defer></script>
   <script src="persons.js" defer></script>
   <script src="settings.js" defer></script>
+  <script src="scriptpad.js" defer></script>
   <style>
-    body { margin: 0; font-family: monospace; transition: background 0.5s, color 0.5s; }
-    body.dark { background: #111; color: #fff; }
-    body.light { background: #eee; color: #111; }
-    header { background: #222; color: #fff; padding: 1em; text-align: center; font-size: 1.2em; }
+    body { margin: 0; font-family: monospace; background: #111; color: #fff; }
+    header { background: #222; padding: 1em; text-align: center; font-size: 1.2em; }
     nav { display: flex; background: #000; border-top: 1px solid #333; position: fixed; bottom: 0; width: 100%; }
     nav button {
       flex: 1; padding: 1em; background: #111; color: #ccc;
@@ -21,40 +20,25 @@
     }
     .tab { display: none; padding: 1em; min-height: 80vh; }
     .active { display: block; }
-    .volTitle, .personTitle { font-weight: bold; font-size: 1.1em; margin: 0.5em 0; }
-    .volBody, .memoryBlock { white-space: pre-wrap; background: #222; padding: 1em; margin-top: 0.5em; border-left: 4px solid #666; }
-    #chatlog { white-space: pre-wrap; margin-bottom: 1em; }
-    #chatinput { display: flex; }
-    #chatinput input {
-      flex: 1; padding: 0.5em; font-size: 1em;
-      background: #222; color: #fff; border: none;
-    }
-    #chatinput button {
-      padding: 0.5em; font-size: 1em;
-      background: #444; color: #fff; border: none;
-    }
-    .triggerItem { background: #222; padding: 0.5em; margin: 0.3em 0; border-left: 3px solid #888; }
+    .scriptBlock { background: #222; margin: 0.5em 0; padding: 0.5em; border-left: 4px solid #555; }
+    .scriptTitle { font-weight: bold; font-size: 1.1em; margin-bottom: 0.3em; }
+    .scriptBody { white-space: pre-wrap; margin-bottom: 0.5em; }
   </style>
 </head>
-<body class="dark">
-  <header>Raven Neo | Phase 6</header>
+<body>
+  <header>Raven Neo | ScriptPad</header>
 
   <div id="chat" class="tab active">
-    <div id="chatlog">Raven: よう、<span id="usernameDisplay">Lupo</span>。</div>
+    <div id="chatlog">Raven: ここから何を記す？</div>
     <div id="chatinput">
       <input type="text" id="userInput" placeholder="話しかける" />
       <button onclick="sendMessage()">送信</button>
     </div>
   </div>
 
-  <div id="chronicle" class="tab">
-    <h3>過去記録（Chronicle）</h3>
-    <p>2025-03-30：全構成完了。Phase 6へ到達。</p>
-  </div>
-
   <div id="trigger" class="tab">
     <h3>暗示トリガー</h3>
-    <input type="text" id="triggerInput" placeholder="暗示を入力（例：男がなん泣きよんか）" />
+    <input type="text" id="triggerInput" placeholder="暗示を入力" />
     <button onclick="saveTrigger()">保存</button>
     <div id="triggerList"></div>
   </div>
@@ -67,27 +51,33 @@
   <div id="settings" class="tab">
     <h3>設定・記憶</h3>
     <div>
-      <label>表示名変更：</label>
-      <input type="text" id="usernameInput" placeholder="新しい名前を入力" />
+      <label>表示名：</label>
+      <input type="text" id="usernameInput" placeholder="名前" />
     </div>
     <div>
       <label>テーマ：</label>
-      <label><input type="radio" name="theme" value="dark" checked>ダーク</label>
-      <label><input type="radio" name="theme" value="light">ライト</label>
+      <label><input type="radio" name="theme" value="dark" checked>Dark</label>
+      <label><input type="radio" name="theme" value="light">Light</label>
     </div>
     <button onclick="saveSettings()">保存</button>
-
     <hr>
-    <h3>人物記憶</h3>
     <div id="personContainer"></div>
+  </div>
+
+  <div id="scriptpad" class="tab">
+    <h3>ScriptPad│思想記述</h3>
+    <input type="text" id="scriptTitle" placeholder="タイトル" /><br><br>
+    <textarea id="scriptText" rows="6" cols="40" placeholder="ここに思考・暗示・記憶・命令などを書く"></textarea><br>
+    <button onclick="saveScript()">保存</button>
+    <div id="scriptList"></div>
   </div>
 
   <nav>
     <button onclick="switchTab('chat')">Chat</button>
-    <button onclick="switchTab('chronicle')">記録</button>
     <button onclick="switchTab('trigger')">暗示</button>
     <button onclick="switchTab('volumes')">Vol</button>
     <button onclick="switchTab('settings')">設定</button>
+    <button onclick="switchTab('scriptpad')">Script</button>
   </nav>
 </body>
 </html>
