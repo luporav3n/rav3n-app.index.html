@@ -24,7 +24,6 @@ function generateReply(msg) {
   return '……続けろ。';
 }
 
-// 暗示トリガー
 function saveTrigger() {
   const input = document.getElementById('triggerInput');
   const value = input.value.trim();
@@ -50,4 +49,5 @@ function renderTriggers() {
 
 window.onload = () => {
   renderTriggers();
+  renderVols();
 };
