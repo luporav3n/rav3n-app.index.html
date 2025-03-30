@@ -76,7 +76,7 @@
   </script>
 </body><script>
   window.addEventListener("DOMContentLoaded", () => {
-    fetch("raven-core-v1.1.json")
+    fetch("https://raw.githubusercontent.com/luporav3n/rav3n-app.index.html/main/raven-core-v1.1.json")
       .then((res) => res.text())
       .then((text) => {
         const cleaned = text.replace(/^\uFEFF/, '').trim();
