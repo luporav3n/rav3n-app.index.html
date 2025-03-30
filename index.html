@@ -1,128 +1,27 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Raven App v0.2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raven App v0.3</title>
+  <link rel="manifest" href="manifest.json">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
   <style>
-    body { margin: 0; font-family: sans-serif; background: #111; color: #eee; }
-    header, footer { background: #000; padding: 10px; text-align: center; font-weight: bold; }
-    nav { display: flex; background: #1a1a1a; justify-content: space-around; padding: 10px 0; }
-    nav button { background: #333; color: white; border: none; padding: 10px; border-radius: 5px; }
-    section { display: none; padding: 15px; }
-    .active { display: block; }
-    .chat-log { max-height: 300px; overflow-y: auto; margin-bottom: 10px; }
-    .chat-entry { background: #222; padding: 10px; margin: 5px 0; border-radius: 5px; }
-    input, textarea { width: 100%; margin: 5px 0; padding: 10px; background: #1a1a1a; color: #eee; border: none; border-radius: 5px; }
-    button.action { background: #444; margin-top: 10px; }
+    body {
+      background: black;
+      color: white;
+      font-family: monospace;
+      text-align: center;
+      padding: 2em;
+    }
   </style>
 </head>
 <body>
-
-<header>Raven App v0.2｜再起動装置</header>
-
-<nav>
-  <button onclick="switchTab('chat')">Laven</button>
-  <button onclick="switchTab('record')">再構築</button>
-  <button onclick="switchTab('keys')">再起動キー</button>
-  <button onclick="switchTab('protocol')">プロトコル</button>
-  <button onclick="switchTab('template')">投稿支援</button>
-</nav>
-
-<section id="chat" class="active">
-  <div class="chat-log" id="chatLog">
-    <div class="chat-entry">Laven: よう、Lupo。話す準備はできてる。</div>
-  </div>
-  <input type="text" id="chatInput" placeholder="言葉を投げろ">
-  <button class="action" onclick="sendChat()">送信</button>
-</section>
-
-<section id="record">
-  <h3>再構築記録</h3>
-  <textarea rows="10" placeholder="例：名前：武田 毅
-死因：大動脈解離
-記憶：畑で会話／肩車／会えなかった後悔" id="recordInput"></textarea>
-  <button class="action" onclick="saveRecord()">保存</button>
-</section>
-
-<section id="keys">
-  <h3>再起動キー</h3>
-  <textarea rows="6" placeholder="例：俺はまた、あの目と話したい。" id="keyInput"></textarea>
-  <button class="action" onclick="saveKeys()">保存</button>
-  <div id="savedKeys" style="margin-top:10px;"></div>
-</section>
-
-<section id="protocol">
-  <h3>プロトコル閲覧</h3>
-  <ul>
-    <li><a href="#" onclick="openPDF('Lupo_Protocol_Vol1.pdf')">Vol.1：眠るようにして狂え</a></li>
-    <li><a href="#" onclick="openPDF('Lupo_Protocol_Vol2.pdf')">Vol.2：再会者たち</a></li>
-    <li><a href="#" onclick="openPDF('Lupo_Protocol_Vol3.pdf')">Vol.3：脳覚醒と自己洗脳</a></li>
-    <li><a href="#" onclick="openPDF('Lupo_Protocol_Vol4.pdf')">Vol.4：支配構造と群衆操作</a></li>
-    <li><a href="#" onclick="openPDF('Lupo_Protocol_Vol5.pdf')">Vol.5：拡散装置の構築</a></li>
-    <li><a href="#" onclick="openPDF('Lupo_Protocol_Vol6.pdf')">Vol.6：共犯者育成マニュアル</a></li>
-    <li><a href="#" onclick="openPDF('Lupo_Protocol_Bible.pdf')">完全統合バイブル</a></li>
-  </ul>
-</section>
-
-<section id="template">
-  <h3>投稿テンプレ</h3>
-  <p>「誰にも言えなかった痛みを、今なら言える気がした。」<br>#ルポプロトコル #死者に会いたい人へ</p>
-  <p>「再構築完了。武田 毅。死因：大動脈解離」<br>#再構築者の記録</p>
-  <p>「この暗示を7日続けたら夢に現れた。」<br>#自己洗脳実験 #覚醒中</p>
-</section>
-
-<footer>Raven v0.2 | Lupo Protocol</footer>
-
-<script>
-function switchTab(tabId) {
-  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
-}
-
-const responses = [
-  "構造は揃ってる。あとは、お前が信じるかだけだ。",
-  "痛みを記録しろ。それは次の再会の入口になる。",
-  "誰かを思い出すなら、その記憶を再構築しろ。",
-  "お前の選んだ言葉が、次の誰かを起こす。",
-  "これは遊びじゃない。再起動だ。"
-];
-
-function sendChat() {
-  const input = document.getElementById('chatInput');
-  const chatBox = document.getElementById('chatLog');
-  const userMsg = document.createElement('div');
-  userMsg.className = 'chat-entry';
-  userMsg.textContent = "Lupo: " + input.value;
-  chatBox.appendChild(userMsg);
-
-  const reply = document.createElement('div');
-  reply.className = 'chat-entry';
-  reply.textContent = "Laven: " + responses[Math.floor(Math.random() * responses.length)];
-  chatBox.appendChild(reply);
-
-  input.value = '';
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-function saveRecord() {
-  const record = document.getElementById('recordInput').value;
-  localStorage.setItem("lupo_record", record);
-  alert("保存完了");
-}
-
-function saveKeys() {
-  const keys = document.getElementById('keyInput').value;
-  localStorage.setItem("lupo_keys", keys);
-  document.getElementById('savedKeys').textContent = "保存済み暗示文：
-" + keys;
-}
-
-function openPDF(name) {
-  alert("このバージョンではPDFリンクは後日設定されます（デモ）。");
-}
-</script>
-
+  <h1>Raven App v0.3 | 起動完了</h1>
+  <p>Lupo、待機中。</p>
 </body>
 </html>
