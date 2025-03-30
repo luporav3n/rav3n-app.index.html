@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Raven Neo｜アーカイブ診断モード</title>
+  <title>Raven Neo｜アーカイブ診断モード（v2.2）</title>
   <style>
     body { background-color: black; color: white; font-family: monospace; padding: 40px; }
     input { margin-top: 20px; }
@@ -19,8 +19,8 @@
   </style>
 </head>
 <body>
-  <h2>Raven Neo｜アーカイブ診断モード</h2>
-  <p>JSONファイルを読み込むと、内容と内部ログを表示します。</p>
+  <h2>Raven Neo｜アーカイブ診断モード（v2.2）</h2>
+  <p>JSONファイルを読み込むと、base64で読み込んで強制的に展開します。</p>
 
   <input type="file" id="fileInput" accept=".json">
   <div id="log">[log]</div>
@@ -47,19 +47,19 @@
       const reader = new FileReader();
 
       reader.onload = function (e) {
-        let rawText = e.target.result;
-
-        // 不可視文字の除去処理
-        const cleanedText = rawText
-          .replace(/^\uFEFF/, '')      // BOM削除
-          .replace(/\u3000/g, ' ')     // 全角スペース → 半角
-          .replace(/\u200B/g, '')      // ゼロ幅スペース削除
-          .trim();                     // 先頭・末尾空白除去
-
-        logMsg("読み込み完了、整形後テキストでJSON解析を試みます…");
-        output.innerText = cleanedText;
-
         try {
+          // Base64部分のみ取り出す
+          const base64Data = e.target.result.split(',')[1];
+          const decodedText = atob(base64Data);
+
+          logMsg("base64デコード完了。クリーニング処理へ…");
+
+          const cleanedText = decodedText
+            .replace(/^\uFEFF/, '')
+            .replace(/\u3000/g, ' ')
+            .replace(/\u200B/g, '')
+            .trim();
+
           const data = JSON.parse(cleanedText);
           logMsg("JSON解析成功。構造体を展開します。");
           output.innerText = JSON.stringify(data, null, 2);
@@ -74,7 +74,7 @@
         alert("ファイル読み込みに失敗しました");
       };
 
-      reader.readAsText(file);
+      reader.readAsDataURL(file);
     });
   </script>
 </body>
