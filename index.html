@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Raven Neo - Phase 5</title>
+  <title>Raven Neo - Phase 6</title>
   <link rel="manifest" href="manifest.json">
   <script src="main.js" defer></script>
   <script src="volumes.js" defer></script>
   <script src="persons.js" defer></script>
+  <script src="settings.js" defer></script>
   <style>
-    body { margin: 0; font-family: monospace; background: #111; color: #fff; }
-    header { background: #222; padding: 1em; text-align: center; font-size: 1.2em; }
+    body { margin: 0; font-family: monospace; transition: background 0.5s, color 0.5s; }
+    body.dark { background: #111; color: #fff; }
+    body.light { background: #eee; color: #111; }
+    header { background: #222; color: #fff; padding: 1em; text-align: center; font-size: 1.2em; }
     nav { display: flex; background: #000; border-top: 1px solid #333; position: fixed; bottom: 0; width: 100%; }
     nav button {
       flex: 1; padding: 1em; background: #111; color: #ccc;
@@ -33,11 +36,11 @@
     .triggerItem { background: #222; padding: 0.5em; margin: 0.3em 0; border-left: 3px solid #888; }
   </style>
 </head>
-<body>
-  <header>Raven Neo | Phase 5</header>
+<body class="dark">
+  <header>Raven Neo | Phase 6</header>
 
   <div id="chat" class="tab active">
-    <div id="chatlog">Raven: 準備はできてるか？</div>
+    <div id="chatlog">Raven: よう、<span id="usernameDisplay">Lupo</span>。</div>
     <div id="chatinput">
       <input type="text" id="userInput" placeholder="話しかける" />
       <button onclick="sendMessage()">送信</button>
@@ -46,11 +49,7 @@
 
   <div id="chronicle" class="tab">
     <h3>過去記録（Chronicle）</h3>
-    <p>2025-03-30：Phase 1 起動。</p>
-    <p>Phase 2：Chat / 記録</p>
-    <p>Phase 3：暗示保存</p>
-    <p>Phase 4：Vol構成追加</p>
-    <p>Phase 5：人物記憶 実装</p>
+    <p>2025-03-30：全構成完了。Phase 6へ到達。</p>
   </div>
 
   <div id="trigger" class="tab">
@@ -66,6 +65,19 @@
   </div>
 
   <div id="settings" class="tab">
+    <h3>設定・記憶</h3>
+    <div>
+      <label>表示名変更：</label>
+      <input type="text" id="usernameInput" placeholder="新しい名前を入力" />
+    </div>
+    <div>
+      <label>テーマ：</label>
+      <label><input type="radio" name="theme" value="dark" checked>ダーク</label>
+      <label><input type="radio" name="theme" value="light">ライト</label>
+    </div>
+    <button onclick="saveSettings()">保存</button>
+
+    <hr>
     <h3>人物記憶</h3>
     <div id="personContainer"></div>
   </div>
@@ -75,7 +87,7 @@
     <button onclick="switchTab('chronicle')">記録</button>
     <button onclick="switchTab('trigger')">暗示</button>
     <button onclick="switchTab('volumes')">Vol</button>
-    <button onclick="switchTab('settings')">記憶</button>
+    <button onclick="switchTab('settings')">設定</button>
   </nav>
 </body>
 </html>
