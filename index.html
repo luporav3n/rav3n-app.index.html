@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Raven Neo - ScriptPad</title>
+  <title>Raven Neo - Macro Enabled</title>
   <link rel="manifest" href="manifest.json">
   <script src="main.js" defer></script>
   <script src="volumes.js" defer></script>
   <script src="persons.js" defer></script>
   <script src="settings.js" defer></script>
   <script src="scriptpad.js" defer></script>
+  <script src="macros.js" defer></script>
   <style>
     body { margin: 0; font-family: monospace; background: #111; color: #fff; }
     header { background: #222; padding: 1em; text-align: center; font-size: 1.2em; }
@@ -26,57 +27,17 @@
   </style>
 </head>
 <body>
-  <header>Raven Neo | ScriptPad</header>
+  <header>Raven Neo | ScriptPad + Macro</header>
 
-  <div id="chat" class="tab active">
-    <div id="chatlog">Raven: ここから何を記す？</div>
-    <div id="chatinput">
-      <input type="text" id="userInput" placeholder="話しかける" />
-      <button onclick="sendMessage()">送信</button>
-    </div>
-  </div>
-
-  <div id="trigger" class="tab">
-    <h3>暗示トリガー</h3>
-    <input type="text" id="triggerInput" placeholder="暗示を入力" />
-    <button onclick="saveTrigger()">保存</button>
-    <div id="triggerList"></div>
-  </div>
-
-  <div id="volumes" class="tab">
-    <h3>Vol群</h3>
-    <div id="volContainer"></div>
-  </div>
-
-  <div id="settings" class="tab">
-    <h3>設定・記憶</h3>
-    <div>
-      <label>表示名：</label>
-      <input type="text" id="usernameInput" placeholder="名前" />
-    </div>
-    <div>
-      <label>テーマ：</label>
-      <label><input type="radio" name="theme" value="dark" checked>Dark</label>
-      <label><input type="radio" name="theme" value="light">Light</label>
-    </div>
-    <button onclick="saveSettings()">保存</button>
-    <hr>
-    <div id="personContainer"></div>
-  </div>
-
-  <div id="scriptpad" class="tab">
+  <div class="tab active" id="scriptpad">
     <h3>ScriptPad│思想記述</h3>
     <input type="text" id="scriptTitle" placeholder="タイトル" /><br><br>
-    <textarea id="scriptText" rows="6" cols="40" placeholder="ここに思考・暗示・記憶・命令などを書く"></textarea><br>
+    <textarea id="scriptText" rows="6" cols="40" placeholder="[[vol:1]] や [[grandpa]] を使って思想記述"></textarea><br>
     <button onclick="saveScript()">保存</button>
     <div id="scriptList"></div>
   </div>
 
   <nav>
-    <button onclick="switchTab('chat')">Chat</button>
-    <button onclick="switchTab('trigger')">暗示</button>
-    <button onclick="switchTab('volumes')">Vol</button>
-    <button onclick="switchTab('settings')">設定</button>
     <button onclick="switchTab('scriptpad')">Script</button>
   </nav>
 </body>
