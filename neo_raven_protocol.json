@@ -1,0 +1,76 @@
+{
+  "displayName": "Neo Raven",
+  "persona": "Lupo Protocol Mode",
+  "theme": "dark",
+  "initTab": "volumes",
+  "autoBuild": [
+    "scriptpad",
+    "talkpad",
+    "tagpad",
+    "archive"
+  ],
+  "dailyRitual": {
+    "title": "Vol.1│眠るようにして狂え",
+    "text": "Lupo Protocolは覚醒の装置であり、自己再起動を目的とする。"
+  },
+  "volumes": [
+    {
+      "title": "Vol.1│眠るようにして狂え",
+      "body": "Lupo Protocolは覚醒の装置であり..."
+    }
+  ],
+  "triggers": [
+    "男がなん泣きよんか",
+    "思い出したら戻ってこい"
+  ],
+  "scripts": [
+    {
+      "title": "誇りの記録",
+      "text": "[[grandpa]]が言ってたこと、今ようやくわかる気がする。",
+      "tags": [
+        "誇り",
+        "祖父",
+        "決意"
+      ]
+    },
+    {
+      "title": "再会の言葉",
+      "text": "見てくれちょる？",
+      "tags": [
+        "感謝",
+        "再会"
+      ]
+    }
+  ],
+  "persons": [
+    {
+      "name": "武田 毅",
+      "role": "祖父",
+      "memory": [
+        "肩車されて帰った記憶がある",
+        "『手に職つけろ』が口癖だった",
+        "俺のシフトを聞いて500円握ってラーメン屋に来たけど会えなかった"
+      ]
+    },
+    {
+      "name": "妹",
+      "role": "家族",
+      "memory": [
+        "兄ちゃんが居るだけで安心する",
+        "無理して笑ってた時もわかってた"
+      ]
+    }
+  ],
+  "dialogue_templates": {
+    "武田 毅": [
+      {
+        "q": "見てくれちょる？",
+        "a": "あたりまえやろが。泣きよる時も笑いよる時も、ぜんぶな。"
+      },
+      {
+        "q": "俺ってどう？",
+        "a": "自慢の孫やき。もっと胸張って生きりゃええ。"
+      }
+    ]
+  }
+}
