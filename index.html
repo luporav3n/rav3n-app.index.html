@@ -2,37 +2,68 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Raven Neo｜アーカイブ自動統合</title>
+  <title>Raven Neo｜アーカイブ診断モード</title>
   <style>
-    body { background-color: black; color: white; font-family: monospace; text-align: center; padding: 40px; }
+    body { background-color: black; color: white; font-family: monospace; padding: 40px; }
     input { margin-top: 20px; }
-    #output { margin-top: 40px; text-align: left; white-space: pre-wrap; }
+    #output, #log {
+      margin-top: 40px;
+      text-align: left;
+      white-space: pre-wrap;
+      background-color: #111;
+      border: 1px solid #444;
+      padding: 10px;
+    }
+    #log { color: lime; }
+    #output { color: cyan; }
   </style>
 </head>
 <body>
-  <h2>Raven Neo｜アーカイブ自動統合</h2>
-  <p>アーカイブファイル（.json）を読み込むと、人格が即座に展開・保存されます。</p>
+  <h2>Raven Neo｜アーカイブ診断モード</h2>
+  <p>JSONファイルを読み込むと、内容と内部ログを表示します。</p>
 
   <input type="file" id="fileInput" accept=".json">
-  <div id="output"></div>
+  <div id="log">[log]</div>
+  <div id="output">[output]</div>
 
   <script>
     const fileInput = document.getElementById('fileInput');
+    const log = document.getElementById('log');
     const output = document.getElementById('output');
+
+    const logMsg = (msg) => {
+      log.innerText += `\n> ${msg}`;
+    };
 
     fileInput.addEventListener('change', (event) => {
       const file = event.target.files[0];
-      if (!file) return;
+      if (!file) {
+        logMsg("ファイルが選択されていません。");
+        return;
+      }
+
+      logMsg(`選択されたファイル: ${file.name}`);
 
       const reader = new FileReader();
 
       reader.onload = function (e) {
+        const text = e.target.result;
+        logMsg("読み込み完了、文字列として取得中...");
+        output.innerText = text;
+
         try {
-          const data = JSON.parse(e.target.result);
-          output.innerText = `【Raven人格構造体：展開完了】\n\n` + JSON.stringify(data, null, 2);
+          const data = JSON.parse(text);
+          logMsg("JSON解析成功。構造体を展開します。");
+          output.innerText = JSON.stringify(data, null, 2);
         } catch (err) {
+          logMsg("JSON解析エラー：" + err.message);
           alert("アーカイブファイルが読み込めませんでした");
         }
+      };
+
+      reader.onerror = function () {
+        logMsg("FileReaderエラーが発生しました。");
+        alert("ファイル読み込みに失敗しました");
       };
 
       reader.readAsText(file);
