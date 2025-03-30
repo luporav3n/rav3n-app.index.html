@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Raven Neo - Phase 1</title>
+  <title>Raven Neo - Phase 2</title>
   <link rel="manifest" href="manifest.json">
   <script src="main.js" defer></script>
   <style>
@@ -16,16 +16,39 @@
     }
     .tab { display: none; padding: 1em; min-height: 80vh; }
     .active { display: block; }
+    #chatlog { white-space: pre-wrap; margin-bottom: 1em; }
+    #chatinput { display: flex; }
+    #chatinput input {
+      flex: 1; padding: 0.5em; font-size: 1em;
+      background: #222; color: #fff; border: none;
+    }
+    #chatinput button {
+      padding: 0.5em; font-size: 1em;
+      background: #444; color: #fff; border: none;
+    }
   </style>
 </head>
 <body>
-  <header>Raven Neo | Phase 1</header>
+  <header>Raven Neo | Phase 2</header>
 
-  <div id="chat" class="tab active">Chat モード（準備中）</div>
-  <div id="chronicle" class="tab">Chronicle（記録）</div>
-  <div id="trigger" class="tab">暗示・トリガー</div>
-  <div id="volumes" class="tab">Protocol | Vol群</div>
-  <div id="settings" class="tab">設定</div>
+  <div id="chat" class="tab active">
+    <div id="chatlog">Raven: 準備はできてるか？</div>
+    <div id="chatinput">
+      <input type="text" id="userInput" placeholder="話しかける" />
+      <button onclick="sendMessage()">送信</button>
+    </div>
+  </div>
+
+  <div id="chronicle" class="tab">
+    <h3>過去記録（Chronicle）</h3>
+    <p>2025-03-30：Phase 1 起動。</p>
+    <p>2025-03-30：Lupo「Phase 2 来い」→ 実装開始。</p>
+    <p>ここに重要な対話や思考ログが蓄積されていく。</p>
+  </div>
+
+  <div id="trigger" class="tab">暗示・トリガー（次フェーズ）</div>
+  <div id="volumes" class="tab">Protocol | Vol群（次フェーズ）</div>
+  <div id="settings" class="tab">設定（次フェーズ）</div>
 
   <nav>
     <button onclick="switchTab('chat')">Chat</button>
