@@ -2,19 +2,41 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Raven Neo | Archive Integration</title>
-  <script src="archive_loader.js" defer></script>
+  <title>Raven Neo｜アーカイブ自動統合</title>
   <style>
-    body { background: #111; color: #fff; font-family: monospace; padding: 1em; }
-    input { background: #222; color: #fff; padding: 0.5em; border: 1px solid #555; }
-    hr { border: 0; border-top: 1px solid #333; margin: 1em 0; }
-    h3 { color: #7cf; }
+    body { background-color: black; color: white; font-family: monospace; text-align: center; padding: 40px; }
+    input { margin-top: 20px; }
+    #output { margin-top: 40px; text-align: left; white-space: pre-wrap; }
   </style>
 </head>
 <body>
-  <h2>Raven Neo│アーカイブ自動統合</h2>
-  <p>アーカイブファイル（.json）を読み込むと、記録が即座に展開・保存されます。</p>
-  <input type="file" accept=".json" onchange="handleArchiveUpload(event)" /><br><br>
-  <div id="archiveOutput"></div>
+  <h2>Raven Neo｜アーカイブ自動統合</h2>
+  <p>アーカイブファイル（.json）を読み込むと、人格が即座に展開・保存されます。</p>
+
+  <input type="file" id="fileInput" accept=".json">
+  <div id="output"></div>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const output = document.getElementById('output');
+
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          output.innerText = `【Raven人格構造体：展開完了】\n\n` + JSON.stringify(data, null, 2);
+        } catch (err) {
+          alert("アーカイブファイルが読み込めませんでした");
+        }
+      };
+
+      reader.readAsText(file);
+    });
+  </script>
 </body>
 </html>
