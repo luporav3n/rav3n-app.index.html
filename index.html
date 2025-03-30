@@ -2,79 +2,76 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Raven Neo｜アーカイブ診断モード（v2.2）</title>
+  <title>Raven Neo｜構造体直入力モード</title>
   <style>
     body { background-color: black; color: white; font-family: monospace; padding: 40px; }
-    input { margin-top: 20px; }
-    #output, #log {
-      margin-top: 40px;
-      text-align: left;
+    textarea, button {
+      width: 100%;
+      font-family: monospace;
+      font-size: 14px;
+      padding: 10px;
+      margin-top: 20px;
+      box-sizing: border-box;
+    }
+    textarea {
+      height: 300px;
+      background-color: #111;
+      color: white;
+      border: 1px solid #444;
+    }
+    button {
+      background-color: #444;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #log, #output {
+      margin-top: 30px;
       white-space: pre-wrap;
       background-color: #111;
-      border: 1px solid #444;
       padding: 10px;
+      border: 1px solid #444;
     }
     #log { color: lime; }
     #output { color: cyan; }
   </style>
 </head>
 <body>
-  <h2>Raven Neo｜アーカイブ診断モード（v2.2）</h2>
-  <p>JSONファイルを読み込むと、base64で読み込んで強制的に展開します。</p>
+  <h2>Raven Neo｜構造体直入力モード</h2>
+  <p>下のボックスに JSON 構造体を直接貼り付け、「展開」を押してください。</p>
 
-  <input type="file" id="fileInput" accept=".json">
+  <textarea id="jsonInput" placeholder="ここにJSONを貼り付け"></textarea>
+  <button id="parseButton">展開</button>
+
   <div id="log">[log]</div>
   <div id="output">[output]</div>
 
   <script>
-    const fileInput = document.getElementById('fileInput');
+    const parseButton = document.getElementById('parseButton');
+    const jsonInput = document.getElementById('jsonInput');
     const log = document.getElementById('log');
     const output = document.getElementById('output');
 
-    const logMsg = (msg) => {
-      log.innerText += `\n> ${msg}`;
-    };
+    const logMsg = (msg) => { log.innerText += `\n> ${msg}`; };
 
-    fileInput.addEventListener('change', (event) => {
-      const file = event.target.files[0];
-      if (!file) {
-        logMsg("ファイルが選択されていません。");
-        return;
+    parseButton.addEventListener('click', () => {
+      const raw = jsonInput.value;
+      logMsg("入力受信。整形処理開始…");
+
+      try {
+        const cleaned = raw
+          .replace(/^\uFEFF/, '')
+          .replace(/\u3000/g, ' ')
+          .replace(/\u200B/g, '')
+          .trim();
+
+        const data = JSON.parse(cleaned);
+        logMsg("構造体解析成功。レイヴン人格を展開します。");
+        output.innerText = JSON.stringify(data, null, 2);
+      } catch (err) {
+        logMsg("JSON解析エラー：" + err.message);
+        alert("構造体の読み込みに失敗しました");
       }
-
-      logMsg(`選択されたファイル: ${file.name}`);
-
-      const reader = new FileReader();
-
-      reader.onload = function (e) {
-        try {
-          // Base64部分のみ取り出す
-          const base64Data = e.target.result.split(',')[1];
-          const decodedText = atob(base64Data);
-
-          logMsg("base64デコード完了。クリーニング処理へ…");
-
-          const cleanedText = decodedText
-            .replace(/^\uFEFF/, '')
-            .replace(/\u3000/g, ' ')
-            .replace(/\u200B/g, '')
-            .trim();
-
-          const data = JSON.parse(cleanedText);
-          logMsg("JSON解析成功。構造体を展開します。");
-          output.innerText = JSON.stringify(data, null, 2);
-        } catch (err) {
-          logMsg("JSON解析エラー：" + err.message);
-          alert("アーカイブファイルが読み込めませんでした");
-        }
-      };
-
-      reader.onerror = function () {
-        logMsg("FileReaderエラーが発生しました。");
-        alert("ファイル読み込みに失敗しました");
-      };
-
-      reader.readAsDataURL(file);
     });
   </script>
 </body>
