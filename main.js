@@ -23,3 +23,31 @@ function generateReply(msg) {
   if (msg.includes('お前')) return '俺はRaven。お前の中にいる。';
   return '……続けろ。';
 }
+
+function saveTrigger() {
+  const input = document.getElementById('triggerInput');
+  const value = input.value.trim();
+  if (!value) return;
+  let triggers = JSON.parse(localStorage.getItem('triggers') || "[]");
+  triggers.push(value);
+  localStorage.setItem('triggers', JSON.stringify(triggers));
+  input.value = "";
+  renderTriggers();
+}
+
+function renderTriggers() {
+  const container = document.getElementById('triggerList');
+  const triggers = JSON.parse(localStorage.getItem('triggers') || "[]");
+  container.innerHTML = "";
+  triggers.forEach((t, i) => {
+    const div = document.createElement("div");
+    div.className = "triggerItem";
+    div.innerText = t;
+    container.appendChild(div);
+  });
+}
+
+window.onload = () => {
+  renderTriggers();
+  renderVols();
+};
