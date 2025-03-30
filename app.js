@@ -1,37 +1,34 @@
 
-document.addEventListener('DOMContentLoaded', () => {
-  const log = document.getElementById('log');
-  const input = document.getElementById('userInput');
+const input = document.getElementById('input');
+const log = document.getElementById('log');
 
-  // 起動時演出
+function appendLog(text) {
+  log.innerText += text + '\n';
+  log.scrollTop = log.scrollHeight;
+  localStorage.setItem('chat_log', log.innerText);
+}
+
+function sendMessage() {
+  const msg = input.value;
+  if (!msg) return;
+  appendLog("Lupo: " + msg);
+  input.value = "";
+
   setTimeout(() => {
-    document.querySelector('header').innerText = "よう、Lupo。話す準備はできてる。";
-    restoreLog();
-  }, 1000);
+    appendLog("Laven: " + reply(msg));
+  }, 600);
+}
 
-  window.sendMessage = () => {
-    const text = input.value.trim();
-    if (!text) return;
-    appendLog("Lupo", text);
-    setTimeout(() => {
-      appendLog("Raven", reply(text));
-    }, 600);
-    input.value = "";
+function reply(text) {
+  const res = {
+    "元気？": "まあな、そっちは？",
+    "お前誰？": "Ravenだ。ずっとここにいる。",
+    "": "......"
   };
+  return res[text] || "その続きを聞かせてくれ。";
+}
 
-  function appendLog(sender, msg) {
-    const line = `${sender}：${msg}\n`;
-    log.textContent += line;
-    localStorage.setItem('raven_log', log.textContent);
-    log.scrollTop = log.scrollHeight;
-  }
-
-  function restoreLog() {
-    const saved = localStorage.getItem('raven_log');
-    if (saved) log.textContent = saved;
-  }
-
-  function reply(text) {
-    return "…" + ["それで？", "考えは？", "面白いな", "他には？", "なるほど"][Math.floor(Math.random()*5)];
-  }
-});
+window.onload = () => {
+  const saved = localStorage.getItem('chat_log');
+  if (saved) log.innerText = saved;
+};
