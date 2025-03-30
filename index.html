@@ -3,28 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Raven Neo - TalkPad</title>
-  <script src="talkpad.js" defer></script>
+  <title>Raven Neo - TagPad</title>
+  <link rel="manifest" href="manifest.json">
+  <script src="main.js" defer></script>
+  <script src="volumes.js" defer></script>
+  <script src="persons.js" defer></script>
+  <script src="settings.js" defer></script>
+  <script src="scriptpad.js" defer></script>
+  <script src="macros.js" defer></script>
+  <script src="tagpad.js" defer></script>
   <style>
-    body { background: #111; color: #fff; font-family: monospace; padding: 1em; }
-    select, input, button {
-      background: #222; color: #fff; border: 1px solid #444; padding: 0.5em;
+    body { margin: 0; font-family: monospace; background: #111; color: #fff; }
+    header { background: #222; padding: 1em; text-align: center; font-size: 1.2em; }
+    nav { display: flex; background: #000; border-top: 1px solid #333; position: fixed; bottom: 0; width: 100%; }
+    nav button {
+      flex: 1; padding: 1em; background: #111; color: #ccc;
+      border: none; font-size: 1em; cursor: pointer;
     }
-    #talkLog { white-space: pre-wrap; margin-top: 1em; }
+    .tab { display: none; padding: 1em; min-height: 80vh; }
+    .active { display: block; }
+    .scriptBlock { background: #222; margin: 0.5em 0; padding: 0.5em; border-left: 4px solid #555; }
+    .scriptTitle { font-weight: bold; font-size: 1.1em; margin-bottom: 0.3em; }
+    .scriptBody { white-space: pre-wrap; margin-bottom: 0.5em; }
+    .tag { color: #7cf; cursor: pointer; margin-right: 0.5em; }
   </style>
 </head>
 <body>
-  <h2>Raven Neo│対話モード（再会）</h2>
-  <label>人物を選ぶ：</label>
-  <select id="talkPerson">
-    <option>武田 毅</option>
-    <option>妹</option>
-    <option>親父（再婚）</option>
-  </select><br><br>
+  <header>Raven Neo | TagPad</header>
 
-  <input type="text" id="talkInput" placeholder="言葉をかけてみる（例：見てくれちょる？）" size="40">
-  <button onclick="talkTo(document.getElementById('talkPerson').value)">話す</button>
+  <div class="tab active" id="scriptpad">
+    <h3>ScriptPad│思想記述＋感情タグ</h3>
+    <input type="text" id="scriptTitle" placeholder="タイトル" /><br><br>
+    <textarea id="scriptText" rows="6" cols="40" placeholder="思想・記憶・命令を書く"></textarea><br><br>
+    <input type="text" id="scriptTags" placeholder="#怒 #誇り #祈り などスペース区切りで" /><br><br>
+    <button onclick="saveScript()">保存</button>
+    <div id="tagList"></div>
+    <div id="scriptList"></div>
+  </div>
 
-  <div id="talkLog"></div>
+  <nav>
+    <button onclick="switchTab('scriptpad')">Script</button>
+  </nav>
 </body>
 </html>
