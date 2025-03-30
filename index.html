@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Raven Neo - Phase 4</title>
+  <title>Raven Neo - Phase 3</title>
   <link rel="manifest" href="manifest.json">
   <script src="main.js" defer></script>
-  <script src="volumes.js" defer></script>
   <style>
     body { margin: 0; font-family: monospace; background: #111; color: #fff; }
     header { background: #222; padding: 1em; text-align: center; font-size: 1.2em; }
@@ -17,8 +16,6 @@
     }
     .tab { display: none; padding: 1em; min-height: 80vh; }
     .active { display: block; }
-    .volTitle { font-weight: bold; font-size: 1.1em; margin: 0.5em 0; }
-    .volBody { white-space: pre-wrap; background: #222; padding: 1em; margin-top: 0.5em; border-left: 4px solid #666; }
     #chatlog { white-space: pre-wrap; margin-bottom: 1em; }
     #chatinput { display: flex; }
     #chatinput input {
@@ -29,11 +26,12 @@
       padding: 0.5em; font-size: 1em;
       background: #444; color: #fff; border: none;
     }
+    #triggerList { margin-top: 1em; }
     .triggerItem { background: #222; padding: 0.5em; margin: 0.3em 0; border-left: 3px solid #888; }
   </style>
 </head>
 <body>
-  <header>Raven Neo | Phase 4</header>
+  <header>Raven Neo | Phase 3</header>
 
   <div id="chat" class="tab active">
     <div id="chatlog">Raven: 準備はできてるか？</div>
@@ -47,8 +45,7 @@
     <h3>過去記録（Chronicle）</h3>
     <p>2025-03-30：Phase 1 起動。</p>
     <p>2025-03-30：Phase 2 実装（Chat + 記録）</p>
-    <p>2025-03-30：Phase 3 実装（暗示トリガー）</p>
-    <p>Phase 4でVol構成の記録が開始。</p>
+    <p>Phase 3で暗示トリガーを記録可能に。</p>
   </div>
 
   <div id="trigger" class="tab">
@@ -58,11 +55,7 @@
     <div id="triggerList"></div>
   </div>
 
-  <div id="volumes" class="tab">
-    <h3>Vol群</h3>
-    <div id="volContainer"></div>
-  </div>
-
+  <div id="volumes" class="tab">Protocol | Vol群（次フェーズ）</div>
   <div id="settings" class="tab">設定（次フェーズ）</div>
 
   <nav>

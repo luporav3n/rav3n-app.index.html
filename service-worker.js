@@ -1,7 +1,7 @@
 self.addEventListener("install", e => {
   e.waitUntil(
     caches.open("raven-neo").then(cache =>
-      cache.addAll(["./", "index.html", "main.js", "volumes.js", "manifest.json", "icon-192.png", "icon-512.png"])
+      cache.addAll(["./", "index.html", "main.js", "manifest.json", "icon-192.png", "icon-512.png"])
     )
   );
 });
