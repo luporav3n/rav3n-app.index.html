@@ -74,5 +74,20 @@
       }
     });
   </script>
-</body>
+</body><script>
+  window.addEventListener("DOMContentLoaded", () => {
+    fetch("raven-core-v1.1.json")
+      .then((res) => res.text())
+      .then((text) => {
+        const cleaned = text.replace(/^\uFEFF/, '').trim();
+        const json = JSON.parse(cleaned);
+        const output = document.getElementById("output");
+        if (output) output.innerText = JSON.stringify(json, null, 2);
+        console.log("レイヴン人格自動展開完了");
+      })
+      .catch((err) => {
+        console.error("読み込み失敗", err);
+      });
+  });
+</script>
 </html>
