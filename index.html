@@ -47,12 +47,20 @@
       const reader = new FileReader();
 
       reader.onload = function (e) {
-        const text = e.target.result;
-        logMsg("読み込み完了、文字列として取得中...");
-        output.innerText = text;
+        let rawText = e.target.result;
+
+        // 不可視文字の除去処理
+        const cleanedText = rawText
+          .replace(/^\uFEFF/, '')      // BOM削除
+          .replace(/\u3000/g, ' ')     // 全角スペース → 半角
+          .replace(/\u200B/g, '')      // ゼロ幅スペース削除
+          .trim();                     // 先頭・末尾空白除去
+
+        logMsg("読み込み完了、整形後テキストでJSON解析を試みます…");
+        output.innerText = cleanedText;
 
         try {
-          const data = JSON.parse(text);
+          const data = JSON.parse(cleanedText);
           logMsg("JSON解析成功。構造体を展開します。");
           output.innerText = JSON.stringify(data, null, 2);
         } catch (err) {
